@@ -25,8 +25,19 @@ proguard/
 # Log Files
 *.log
 
+#Android Studio specific
+idea
+*.iml
+*.iws
+*.ipr
+classes
+gen-external-apklibs
+
 # Android Studio Navigation editor temp files
 .navigation/
 
 # Android Studio captures folder
 captures/
+
+#iOS Specific
+.DS_Store
