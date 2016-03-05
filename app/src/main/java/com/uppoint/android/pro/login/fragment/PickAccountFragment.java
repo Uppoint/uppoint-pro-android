@@ -117,6 +117,8 @@ public class PickAccountFragment extends BaseFragment<List<Account>> implements 
         if (mGetUserEndpoint == null) {
             mGetUserEndpoint = new GetUser().using(getContext()).withEmail(account.name);
         }
+
+        showLoadingDialog(R.string.pick_account_loading_message);
         addSubscription(mGetUserEndpoint.toObservable().subscribe(mGetUserObserver));
     }
 
@@ -134,11 +136,13 @@ public class PickAccountFragment extends BaseFragment<List<Account>> implements 
 
         @Override
         public void onError(Throwable e) {
+            dismissLoadingDialog();
             showErrorDialog(R.string.pick_account_error_message);
         }
 
         @Override
         public void onNext(ProUserPayload proUserPayload) {
+            dismissLoadingDialog();
             if (proUserPayload != null) {
                 Toast.makeText(getContext(), "User found. Proceed to main screen.", Toast.LENGTH_SHORT).show();
             }
