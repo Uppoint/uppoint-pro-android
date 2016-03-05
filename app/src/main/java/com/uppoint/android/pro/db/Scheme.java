@@ -41,7 +41,7 @@ public final class Scheme {
 
     public interface Category extends Nomenclature {
 
-        String TABLE_NAMES = "categories";
+        String TABLE_NAME = "categories";
 
         String[] PROJECTION = {_ID, _KEY, NAME};
 
