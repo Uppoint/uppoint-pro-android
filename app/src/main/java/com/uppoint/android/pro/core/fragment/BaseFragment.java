@@ -3,6 +3,7 @@ package com.uppoint.android.pro.core.fragment;
 import com.uppoint.android.pro.core.EndpointCommand;
 import com.uppoint.android.pro.core.activity.BaseActivity;
 import com.uppoint.android.pro.core.dialog.ErrorDialog;
+import com.uppoint.android.pro.core.dialog.ProgressDialog;
 import com.uppoint.android.pro.core.util.Preconditions;
 
 import android.content.Context;
@@ -129,5 +130,17 @@ public abstract class BaseFragment<M> extends Fragment implements LoaderManager.
 
     protected void showErrorDialog(@StringRes int messageResId) {
         ErrorDialog.newInstance(messageResId).show(getFragmentManager(), ErrorDialog.TAG);
+    }
+
+    protected void showLoadingDialog(@StringRes int messageResId) {
+        ProgressDialog.newInstance(messageResId).show(getFragmentManager(), ProgressDialog.TAG);
+    }
+
+    protected void dismissLoadingDialog() {
+        final ProgressDialog dialog = (ProgressDialog) getFragmentManager().findFragmentByTag(ProgressDialog.TAG);
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+
     }
 }
