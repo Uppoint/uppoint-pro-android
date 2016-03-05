@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <dimen name="base_grid_unit">8dp</dimen>
+    
+    <dimen name="horizontal_margin">16dp</dimen>
+    <dimen name="vertical_margin_big">40dp</dimen>
+    <dimen name="vertical_margin_normal">32dp</dimen>
+
+    <dimen name="raised_button_height">36dp</dimen>
+    <dimen name="raised_button_min_width">88dp</dimen>
+</resources>

@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="bender-1.1">
+    <ANNOTATIONS>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/bg.dalexiev/bender/1.1/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/bg.dalexiev/bender/1.1/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/bg.dalexiev/bender/1.1/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/bg.dalexiev/bender/1.1/81e2ac0c444ff2c313a6d97285f2bae5a6d602d5/bender-1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
