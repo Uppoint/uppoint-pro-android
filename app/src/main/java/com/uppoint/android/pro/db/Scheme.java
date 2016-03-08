@@ -16,6 +16,13 @@ public final class Scheme {
 
     }
 
+    private interface SyncedEntity extends Entity {
+
+        String _LAST_UPDATE = "last_update";
+        String _IS_DELETED = "is_deleted";
+
+    }
+
     private interface Nomenclature extends Entity {
 
         String NAME = "name";
@@ -67,7 +74,7 @@ public final class Scheme {
 
     }
 
-    public interface User extends Entity {
+    public interface User extends SyncedEntity {
 
         String TABLE_NAME = "users";
 
@@ -86,7 +93,7 @@ public final class Scheme {
         String CITY_KEY = "city_key";
     }
 
-    public interface UserDefinedService extends Entity {
+    public interface UserDefinedService extends SyncedEntity {
 
         String TABLE_NAME = "user_defined_services";
 
@@ -98,5 +105,19 @@ public final class Scheme {
         String USER_KEY = "user_key";
         String SERVICE_TYPE_KEY = "service_type_key";
 
+    }
+
+    public interface Event extends SyncedEntity {
+
+        String TABLE_NAME = "events";
+
+        String TITLE = "title";
+        String DESCRIPTION = "description";
+        String START_TIME = "start_time";
+        String END_TIME = "end_time";
+
+        String USER_KEY = "user_key";
+
+        String[] PROJECTION = {_ID, _KEY, TITLE, DESCRIPTION, START_TIME, END_TIME};
     }
 }

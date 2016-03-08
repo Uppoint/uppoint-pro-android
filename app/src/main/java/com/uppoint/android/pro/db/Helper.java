@@ -59,6 +59,8 @@ public class Helper extends SQLiteOpenHelper {
             + Scheme.User.PROFESSION_KEY + " text, "
             + Scheme.User.COUNTRY_KEY + " text, "
             + Scheme.User.CITY_KEY + " text, "
+            + Scheme.User._LAST_UPDATE + " text,"
+            + Scheme.User._IS_DELETED + " integer, "
             + "foreign key(" + Scheme.User.PROFESSION_KEY + ") "
             + "references " + Scheme.Profession.TABLE_NAME + "(" + Scheme.Profession._KEY + "), "
             + "foreign key(" + Scheme.User.CITY_KEY + ") "
@@ -76,9 +78,24 @@ public class Helper extends SQLiteOpenHelper {
             + Scheme.UserDefinedService.DURATION + " integer not null, "
             + Scheme.UserDefinedService.SERVICE_TYPE_KEY + " text not null, "
             + Scheme.UserDefinedService.USER_KEY + " text not null, "
+            + Scheme.UserDefinedService._LAST_UPDATE + " text,"
+            + Scheme.UserDefinedService._IS_DELETED + " integer, "
             + "foreign key(" + Scheme.UserDefinedService.SERVICE_TYPE_KEY + ") "
             + "references " + Scheme.ServiceType.TABLE_NAME + "(" + Scheme.ServiceType._KEY + "), "
             + "foreign key(" + Scheme.UserDefinedService.USER_KEY + ") "
+            + "references " + Scheme.User.TABLE_NAME + "(" + Scheme.User._KEY + "))";
+
+    private static final String CREATE_EVENTS = "create table " + Scheme.Event.TABLE_NAME + "("
+            + Scheme.Event._ID + " integer primary key, "
+            + Scheme.Event._KEY + " text unique not null, "
+            + Scheme.Event.TITLE + " text not null, "
+            + Scheme.Event.DESCRIPTION + " text, "
+            + Scheme.Event.START_TIME + " integer not null, "
+            + Scheme.Event.END_TIME + " integer not null, "
+            + Scheme.Event.USER_KEY + " text not null, "
+            + Scheme.Event._LAST_UPDATE + " text,"
+            + Scheme.Event._IS_DELETED + " integer, "
+            + "foreign key(" + Scheme.Event.USER_KEY + ") "
             + "references " + Scheme.User.TABLE_NAME + "(" + Scheme.User._KEY + "))";
 
 
@@ -97,6 +114,7 @@ public class Helper extends SQLiteOpenHelper {
 
         db.execSQL(CREATE_USERS);
         db.execSQL(CREATE_USER_DEFINED_SERVICES);
+        db.execSQL(CREATE_EVENTS);
     }
 
     @Override
