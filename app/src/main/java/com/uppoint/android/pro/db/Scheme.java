@@ -1,16 +1,19 @@
 package com.uppoint.android.pro.db;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
  */
 public final class Scheme {
 
+    private static final Uri BASE_URI = new Uri.Builder().scheme("content").authority(Provider.AUTHORITY).build();
+
     private Scheme() {
         // deny instantiation
     }
 
-    private interface Entity extends BaseColumns {
+    public interface Entity extends BaseColumns {
 
         String _KEY = "key";
 
@@ -78,6 +81,8 @@ public final class Scheme {
 
         String TABLE_NAME = "users";
 
+        Uri URI = BASE_URI.buildUpon().appendEncodedPath(TABLE_NAME).build();
+
         String NAME = "name";
         String EMAIL = "email";
         String PHONE_NUMBER = "phone_number";
@@ -91,11 +96,16 @@ public final class Scheme {
         String PROFESSION_KEY = "profession_key";
         String COUNTRY_KEY = "country_key";
         String CITY_KEY = "city_key";
+
+        String[] SYNC_PROJECTION = {_KEY, NAME, EMAIL, PHONE_NUMBER, RATING, ADDRESS_STREET, ADDRESS_NUMBER,
+                ADDRESS_LATITUDE, ADDRESS_LONGITUDE, CITY_KEY, COUNTRY_KEY, PROFESSION_KEY};
     }
 
     public interface UserDefinedService extends SyncedEntity {
 
         String TABLE_NAME = "user_defined_services";
+
+        Uri URI = BASE_URI.buildUpon().appendEncodedPath(TABLE_NAME).build();
 
         String NAME = "name";
         String DESCRIPTION = "description";
@@ -105,11 +115,15 @@ public final class Scheme {
         String USER_KEY = "user_key";
         String SERVICE_TYPE_KEY = "service_type_key";
 
+        String[] SYNC_PROJECTION = {_KEY, NAME, DESCRIPTION, DURATION, PRICE, USER_KEY, SERVICE_TYPE_KEY};
+
     }
 
     public interface Event extends SyncedEntity {
 
         String TABLE_NAME = "events";
+
+        Uri URI = BASE_URI.buildUpon().appendEncodedPath(TABLE_NAME).build();
 
         String TITLE = "title";
         String DESCRIPTION = "description";
@@ -119,5 +133,7 @@ public final class Scheme {
         String USER_KEY = "user_key";
 
         String[] PROJECTION = {_ID, _KEY, TITLE, DESCRIPTION, START_TIME, END_TIME};
+
+        String[] SYNC_PROJECTION = {_KEY, TITLE, DESCRIPTION, START_TIME, END_TIME, USER_KEY};
     }
 }
