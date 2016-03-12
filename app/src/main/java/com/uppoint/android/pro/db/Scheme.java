@@ -7,7 +7,8 @@ import android.provider.BaseColumns;
  */
 public final class Scheme {
 
-    private static final Uri BASE_URI = new Uri.Builder().scheme("content").authority(Provider.AUTHORITY).build();
+    public static final Uri BASE_URI = new Uri.Builder().scheme("content").authority(Provider.AUTHORITY).build();
+    public static final Uri SYNC_URI = BASE_URI.buildUpon().appendEncodedPath("sync").build();
 
     private Scheme() {
         // deny instantiation
@@ -36,6 +37,8 @@ public final class Scheme {
 
         String TABLE_NAME = "countries";
 
+        Uri URI = BASE_URI.buildUpon().appendEncodedPath(TABLE_NAME).build();
+
         String[] PROJECTION = {_ID, _KEY, NAME};
 
     }
@@ -43,6 +46,8 @@ public final class Scheme {
     public interface City extends Nomenclature {
 
         String TABLE_NAME = "cities";
+
+        Uri URI = BASE_URI.buildUpon().appendEncodedPath(TABLE_NAME).build();
 
         String COUNTRY_KEY = "country_key";
 
@@ -53,6 +58,8 @@ public final class Scheme {
 
         String TABLE_NAME = "categories";
 
+        Uri URI = BASE_URI.buildUpon().appendEncodedPath(TABLE_NAME).build();
+
         String[] PROJECTION = {_ID, _KEY, NAME};
 
     }
@@ -60,6 +67,8 @@ public final class Scheme {
     public interface Profession extends Nomenclature {
 
         String TABLE_NAME = "professions";
+
+        Uri URI = BASE_URI.buildUpon().appendEncodedPath(TABLE_NAME).build();
 
         String CATEGORY_KEY = "category_key";
 
@@ -70,6 +79,8 @@ public final class Scheme {
     public interface ServiceType extends Nomenclature {
 
         String TABLE_NAME = "service_types";
+
+        Uri URI = BASE_URI.buildUpon().appendEncodedPath(TABLE_NAME).build();
 
         String PROFESSION_KEY = "profession_key";
 

@@ -19,8 +19,8 @@ public class Helper extends SQLiteOpenHelper {
     private static final String CREATE_CITIES = "create table " + Scheme.City.TABLE_NAME + "("
             + Scheme.City._ID + " integer primary key, "
             + Scheme.City._KEY + " text unique not null, "
-            + Scheme.City.NAME + " text not null "
-            + Scheme.City.COUNTRY_KEY + " text not null "
+            + Scheme.City.NAME + " text not null, "
+            + Scheme.City.COUNTRY_KEY + " text not null, "
             + "foreign key(" + Scheme.City.COUNTRY_KEY + ") "
             + "references " + Scheme.Country.TABLE_NAME + "(" + Scheme.Country._KEY + "))";
 
@@ -32,7 +32,7 @@ public class Helper extends SQLiteOpenHelper {
     private static final String CREATE_PROFESSIONS = "create table " + Scheme.Profession.TABLE_NAME + "("
             + Scheme.Profession._ID + " integer primary key, "
             + Scheme.Profession._KEY + " text unique not null, "
-            + Scheme.Profession.NAME + " text not null"
+            + Scheme.Profession.NAME + " text not null, "
             + Scheme.Profession.CATEGORY_KEY + " text not null, "
             + "foreign key(" + Scheme.Profession.CATEGORY_KEY + ") "
             + "references " + Scheme.Category.TABLE_NAME + "(" + Scheme.Category._KEY + "))";
@@ -40,7 +40,7 @@ public class Helper extends SQLiteOpenHelper {
     private static final String CREATE_SERVICE_TYPES = "create table " + Scheme.ServiceType.TABLE_NAME + "("
             + Scheme.ServiceType._ID + " integer primary key, "
             + Scheme.ServiceType._KEY + " text unique not null, "
-            + Scheme.ServiceType.NAME + " text not null "
+            + Scheme.ServiceType.NAME + " text not null, "
             + Scheme.ServiceType.PROFESSION_KEY + " text not null, "
             + "foreign key(" + Scheme.ServiceType.PROFESSION_KEY + ") "
             + "references " + Scheme.Profession.TABLE_NAME + "(" + Scheme.Profession._KEY + "))";

@@ -10,7 +10,7 @@ import android.support.annotation.Nullable;
 public class SyncService extends Service {
 
     private static SyncAdapter sSyncAdapter;
-    private static Object sSyncAdapterLock;
+    private static final Object sSyncAdapterLock = new Object();
 
     @Override
     public void onCreate() {
