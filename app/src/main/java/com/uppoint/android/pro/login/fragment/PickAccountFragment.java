@@ -2,6 +2,7 @@ package com.uppoint.android.pro.login.fragment;
 
 import com.appspot.uppoint_api.uppointApi.model.ProUserPayload;
 import com.uppoint.android.pro.R;
+import com.uppoint.android.pro.UppointProApplication;
 import com.uppoint.android.pro.core.fragment.BaseFragment;
 import com.uppoint.android.pro.core.util.Preconditions;
 import com.uppoint.android.pro.core.util.SharedPreferenceConstants;
@@ -110,9 +111,9 @@ public class PickAccountFragment extends BaseFragment<List<Account>> implements 
     public void onItemClick(int position) {
         final Account account = mAdapter.getItemAtPosition(position);
 
-        final SharedPreferences sharedPreferences = getContext()
-                .getSharedPreferences(SharedPreferenceConstants.SETTINGS_PREFS, Context.MODE_PRIVATE);
-        sharedPreferences.edit().putString(SharedPreferenceConstants.KEY_USER, account.name).apply();
+        final SharedPreferences prefs = getContext().getSharedPreferences(SharedPreferenceConstants.SETTINGS_PREFS,
+                Context.MODE_PRIVATE);
+        prefs.edit().putString(SharedPreferenceConstants.KEY_USER, account.name).apply();
 
         if (mGetUserEndpoint == null) {
             mGetUserEndpoint = new GetUser().using(getContext()).withEmail(account.name);
@@ -145,8 +146,21 @@ public class PickAccountFragment extends BaseFragment<List<Account>> implements 
             dismissLoadingDialog();
             if (proUserPayload != null) {
                 Toast.makeText(getContext(), "User found. Proceed to main screen.", Toast.LENGTH_SHORT).show();
+                storeUserKey(proUserPayload);
+                requestSync();
             }
         }
+    }
+
+    private void storeUserKey(ProUserPayload proUserPayload) {
+        final SharedPreferences prefs = getContext()
+                .getSharedPreferences(SharedPreferenceConstants.SETTINGS_PREFS, Context.MODE_PRIVATE);
+        prefs.edit().putString(SharedPreferenceConstants.KEY_USER_REMOTE_ID, proUserPayload.getKey()).apply();
+    }
+
+    private void requestSync() {
+        final UppointProApplication app = (UppointProApplication) getContext().getApplicationContext();
+        app.requestSync(true /* force sync */);
     }
 
     public interface Callback {

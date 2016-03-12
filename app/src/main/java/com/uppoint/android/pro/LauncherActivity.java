@@ -16,17 +16,21 @@ public class LauncherActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        openStartingActivity();
+
+        finish();
+    }
+
+    private void openStartingActivity() {
         final Intent intent;
         if (getLoggedUser() == null) {
             // no user, go through login
             intent = new Intent(this, GetStartedActivity.class);
             startActivity(intent);
         } else {
-            // user logger, go to main screen
+            // user logged, go to main screen
             // TODO: Implement navigation to the main screen
         }
-
-        finish();
     }
 
     private String getLoggedUser() {
