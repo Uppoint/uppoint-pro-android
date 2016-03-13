@@ -13,5 +13,16 @@
     <string name="pick_account_error_message">Couldn\'t get information about the selected account from the server. Please, try again later.</string>
     <string name="pick_account_loading_message">Looking up account…</string>
 
+    <string name="drawer_open">Opened Navigation Drawer</string>
+    <string name="drawer_close">Coled Navigation Drawer</string>
+
     <string name="calendar_title">Calendar</string>
+
+    <string name="profile_title">Profile</string>
+
+    <string name="services_title">Services</string>
+
+    <string name="office_hours_title">Office Hours</string>
+
+    <string name="logout">Log Out</string>
 </resources>

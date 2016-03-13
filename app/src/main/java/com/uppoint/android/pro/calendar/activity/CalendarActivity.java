@@ -2,11 +2,11 @@ package com.uppoint.android.pro.calendar.activity;
 
 import com.uppoint.android.pro.R;
 import com.uppoint.android.pro.calendar.fragment.CalendarFragment;
-import com.uppoint.android.pro.core.activity.BaseActivity;
+import com.uppoint.android.pro.core.activity.DrawerActivity;
 
 /**
  */
-public class CalendarActivity extends BaseActivity {
+public class CalendarActivity extends DrawerActivity {
 
     @Override
     protected void onFragmentContainerReady() {

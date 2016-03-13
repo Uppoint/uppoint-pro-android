@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/drawer_item_height"
+              android:background="?android:selectableItemBackground"
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:paddingLeft="@dimen/horizontal_margin"
+              android:paddingRight="@dimen/horizontal_margin">
+
+    <ImageView
+        android:id="@+id/drawer_item_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/horizontal_margin"
+        android:layout_marginRight="@dimen/horizontal_margin"
+        android:tint="@color/color_drawer_item"/>
+
+    <TextView
+        android:id="@+id/drawer_item_title"
+        style="@style/Theme.Typography.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/horizontal_margin"
+        android:layout_marginStart="@dimen/horizontal_margin"
+        android:textColor="@color/color_drawer_item"
+        tools:text="Calendar"/>
+
+</LinearLayout>

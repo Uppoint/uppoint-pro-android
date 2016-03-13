@@ -9,4 +9,8 @@
 
     <dimen name="raised_button_height">36dp</dimen>
     <dimen name="raised_button_min_width">88dp</dimen>
+
+    <dimen name="drawer_width">240dp</dimen>
+    <dimen name="drawer_item_height">48dp</dimen>
+    <dimen name="drawer_padding_top">24dp</dimen>
 </resources>

@@ -7,6 +7,7 @@ import com.uppoint.android.pro.core.util.Preconditions;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,12 +34,22 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_base);
+        setContentView(getLayoutResId());
 
         initToolbar();
 
         initCache();
+    }
+
+    @Override
+    public void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
         onFragmentContainerReady();
+    }
+
+    protected int getLayoutResId() {
+        return R.layout.activity_base;
     }
 
     private void initCache() {

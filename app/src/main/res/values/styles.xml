@@ -42,12 +42,21 @@
         <item name="android:typeface">sans</item>
     </style>
 
+    <style name="Medium">
+        <item name="android:typeface">sans</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Theme.Typography.Headline" parent="Regular">
         <item name="android:textSize">24sp</item>
     </style>
 
     <style name="Theme.Typography.Subheading" parent="Regular">
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Theme.Typography.Body2" parent="Medium">
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>
