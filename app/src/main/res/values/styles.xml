@@ -38,6 +38,10 @@
         <item name="colorButtonNormal">@color/colorPrimary</item>
     </style>
 
+    <style name="Theme.Widget.Button.FloatingAction" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
     <style name="Regular">
         <item name="android:typeface">sans</item>
     </style>

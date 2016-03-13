@@ -21,4 +21,14 @@
         app:textSize="12sp"
         app:todayBackgroundColor="#1848adff"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="@dimen/horizontal_margin"
+        android:layout_marginEnd="@dimen/horizontal_margin"
+        android:layout_marginRight="@dimen/horizontal_margin"
+        android:src="@drawable/ic_add_white_24dp"
+        android:theme="@style/Theme.Widget.Button.FloatingAction"/>
+
 </FrameLayout>
