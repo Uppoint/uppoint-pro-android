@@ -1,5 +1,7 @@
 package com.uppoint.android.pro;
 
+import com.uppoint.android.pro.calendar.activity.CalendarActivity;
+import com.uppoint.android.pro.core.activity.BaseActivity;
 import com.uppoint.android.pro.core.util.SharedPreferenceConstants;
 import com.uppoint.android.pro.login.activity.GetStartedActivity;
 
@@ -22,15 +24,17 @@ public class LauncherActivity extends AppCompatActivity {
     }
 
     private void openStartingActivity() {
-        final Intent intent;
+        final Class<? extends BaseActivity> targetClass;
         if (getLoggedUser() == null) {
             // no user, go through login
-            intent = new Intent(this, GetStartedActivity.class);
-            startActivity(intent);
+            targetClass = GetStartedActivity.class;
         } else {
             // user logged, go to main screen
-            // TODO: Implement navigation to the main screen
+            targetClass = CalendarActivity.class;
         }
+
+        final Intent intent = new Intent(this, targetClass);
+        startActivity(intent);
     }
 
     private String getLoggedUser() {

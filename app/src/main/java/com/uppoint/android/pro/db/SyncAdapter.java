@@ -13,6 +13,7 @@ import com.appspot.uppoint_api.uppointApi.model.UserDefinedServicePayload;
 import com.uppoint.android.pro.core.ApiFactory;
 import com.uppoint.android.pro.core.util.LocalePairUtil;
 import com.uppoint.android.pro.core.util.Preconditions;
+import com.uppoint.android.pro.core.util.SharedPreferenceConstants;
 import com.uppoint.android.pro.db.mapper.SyncEventMapper;
 import com.uppoint.android.pro.db.mapper.SyncKeyMapper;
 import com.uppoint.android.pro.db.mapper.SyncServiceMapper;
@@ -26,6 +27,7 @@ import android.content.ContentProviderResult;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.OperationApplicationException;
+import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -75,7 +77,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         SyncPayload localChanges = null;
         if (timestamp != null) {
-            localChanges = fetchLocalChanges(syncResult, timestamp, userKey);
+            localChanges = fetchLocalChanges(timestamp, userKey);
         }
 
         try {
@@ -104,12 +106,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         try {
             final ContentProviderResult[] results = mContentResolver.applyBatch(Provider.AUTHORITY, operations);
+            saveSyncTimestamp(remoteChanges.getLastSyncTimestamp());
             if (results.length > 0) {
                 mContentResolver.notifyChange(Scheme.BASE_URI, null);
             }
         } catch (RemoteException | OperationApplicationException e) {
             syncResult.hasHardError();
         }
+    }
+
+    private void saveSyncTimestamp(long lastSyncTimestamp) {
+        final SharedPreferences prefs = getContext()
+                .getSharedPreferences(SharedPreferenceConstants.SETTINGS_PREFS, Context.MODE_PRIVATE);
+        prefs.edit().putString(SharedPreferenceConstants.KEY_SYNC_TIMESTAMP, String.valueOf(lastSyncTimestamp)).apply();
     }
 
     private void insertEvents(SyncPayload remoteChanges, ArrayList<ContentProviderOperation> operations) {
@@ -289,7 +298,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .build();
     }
 
-    private SyncPayload fetchLocalChanges(SyncResult syncResult, String timestamp, String userKey) {
+    private SyncPayload fetchLocalChanges(String timestamp, String userKey) {
         final SyncPayload syncPayload = new SyncPayload();
 
         final ProUserPayload proUserPayload = fetchProfile(userKey, timestamp);

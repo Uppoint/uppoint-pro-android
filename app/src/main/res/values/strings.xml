@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Uppoint Pro</string>
 
+    <string name="error_dialog_title">Error</string>
+    <string name="error_dialog_ok_button">OK</string>
+
     <string name="login_logo_placeholder">Uppoint Logo</string>
     <string name="login_subtitle_placeholder">Uppoint Moto</string>
     <string name="login_get_started_label">Get started</string>
@@ -10,6 +13,5 @@
     <string name="pick_account_error_message">Couldn\'t get information about the selected account from the server. Please, try again later.</string>
     <string name="pick_account_loading_message">Looking up account…</string>
 
-    <string name="error_dialog_title">Error</string>
-    <string name="error_dialog_ok_button">OK</string>
+    <string name="calendar_title">Calendar</string>
 </resources>

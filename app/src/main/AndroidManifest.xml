@@ -43,6 +43,8 @@
                 android:value=".login.activity.GetStartedActivity"/>
         </activity>
 
+        <activity android:name=".calendar.activity.CalendarActivity"/>
+
         <provider
             android:name=".db.Provider"
             android:authorities="com.uppoint.pro.provider"

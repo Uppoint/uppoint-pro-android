@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import bg.dalexiev.bender.content.ResolverCommandBuilder;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
@@ -27,6 +28,8 @@ import rx.subscriptions.CompositeSubscription;
 public abstract class BaseFragment<M> extends Fragment implements LoaderManager.LoaderCallbacks<M> {
 
     protected static final int NO_LOADER = -1;
+
+    private ResolverCommandBuilder mCommandBuilder;
 
     private CompositeSubscription mCompositeSubscription;
 
@@ -42,13 +45,15 @@ public abstract class BaseFragment<M> extends Fragment implements LoaderManager.
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mCommandBuilder = new ResolverCommandBuilder();
+
         loadModel();
     }
 
     private void loadModel() {
         final int loaderId = getLoaderId();
         if (NO_LOADER != loaderId) {
-            getLoaderManager().restartLoader(loaderId, null, this);
+            getLoaderManager().restartLoader(loaderId, getLoaderArguments(), this);
         }
     }
 
@@ -81,6 +86,11 @@ public abstract class BaseFragment<M> extends Fragment implements LoaderManager.
         }
     }
 
+    @Nullable
+    protected Bundle getLoaderArguments() {
+        return null;
+    }
+
     @Override
     public void onLoadFinished(Loader<M> loader, M data) {
         updateUI(data);
@@ -99,6 +109,10 @@ public abstract class BaseFragment<M> extends Fragment implements LoaderManager.
     protected abstract void initUI(View view);
 
     protected abstract void updateUI(M model);
+
+    protected ResolverCommandBuilder getContentResolverCommandBuilder() {
+        return mCommandBuilder;
+    }
 
     protected void addSubscription(Subscription subscription) {
         mCompositeSubscription.add(subscription);

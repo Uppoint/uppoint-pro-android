@@ -1,8 +1,8 @@
 package com.uppoint.android.pro.core.activity;
 
 import com.uppoint.android.pro.R;
-import com.uppoint.android.pro.core.fragment.EndpointCacheFragment;
 import com.uppoint.android.pro.core.EndpointCommand;
+import com.uppoint.android.pro.core.fragment.EndpointCacheFragment;
 import com.uppoint.android.pro.core.util.Preconditions;
 
 import android.content.Intent;
@@ -78,7 +78,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (android.R.id.home == item.getItemId()) {
             final Intent upIntent = NavUtils.getParentActivityIntent(this);
-            if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+            if (upIntent == null) {
+                finish();
+            } else if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
                 TaskStackBuilder.create(this)
                         .addNextIntentWithParentStack(upIntent)
                         .startActivities();
