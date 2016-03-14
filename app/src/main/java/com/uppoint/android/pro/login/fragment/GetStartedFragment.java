@@ -5,8 +5,6 @@ import com.uppoint.android.pro.core.fragment.BaseFragment;
 import com.uppoint.android.pro.core.util.Preconditions;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.Button;
 
@@ -35,11 +33,6 @@ public class GetStartedFragment extends BaseFragment<Void> implements View.OnCli
     }
 
     @Override
-    protected int getLoaderId() {
-        return NO_LOADER;
-    }
-
-    @Override
     protected void initUI(View view) {
         final Button getStartedButton = (Button) view.findViewById(R.id.splash_get_started_button);
         getStartedButton.setOnClickListener(this);
@@ -48,11 +41,6 @@ public class GetStartedFragment extends BaseFragment<Void> implements View.OnCli
     @Override
     protected void updateUI(Void model) {
         // do nothing
-    }
-
-    @Override
-    public Loader<Void> onCreateLoader(int id, Bundle args) {
-        return null;
     }
 
     @Override

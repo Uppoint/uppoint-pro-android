@@ -31,43 +31,47 @@ public class Provider extends DatabaseContentProvider {
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
         final Uri insertUri = super.insert(uri, values);
-        triggerSync();
+        triggerSync(uri);
         return insertUri;
     }
 
     @Override
     public int bulkInsert(@NonNull Uri uri, ContentValues[] values) {
         final int insertedRows = super.bulkInsert(uri, values);
-        triggerSync();
+        triggerSync(uri);
         return insertedRows;
     }
 
     @Override
     public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         final int updatedRows = super.update(uri, values, selection, selectionArgs);
-        triggerSync();
+        triggerSync(uri);
         return updatedRows;
     }
 
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         final int deletedRows = super.delete(uri, selection, selectionArgs);
-        triggerSync();
+        triggerSync(uri);
         return deletedRows;
     }
 
-    private void triggerSync() {
+    private void triggerSync(final Uri uri) {
         final Context context = getContext();
-        if (context != null) {
+        if (context != null && isNotSyncOperation(uri)) {
             context.getContentResolver().notifyChange(Scheme.SYNC_URI, null);
         }
     }
 
     @Override
     protected void notifyChange(@NonNull Uri uri) {
-        if (uri.getBooleanQueryParameter(PARAM_IS_SYNC, false)) {
+        if (isNotSyncOperation(uri)) {
             // if the change is made during a sync, don't notify. The sync adapter takes care of that.
             super.notifyChange(uri);
         }
+    }
+
+    private boolean isNotSyncOperation(@NonNull Uri uri) {
+        return !uri.getBooleanQueryParameter(PARAM_IS_SYNC, false);
     }
 }

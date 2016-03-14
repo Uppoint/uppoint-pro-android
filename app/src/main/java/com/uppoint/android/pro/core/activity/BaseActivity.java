@@ -2,6 +2,7 @@ package com.uppoint.android.pro.core.activity;
 
 import com.uppoint.android.pro.R;
 import com.uppoint.android.pro.core.EndpointCommand;
+import com.uppoint.android.pro.core.fragment.BaseFragment;
 import com.uppoint.android.pro.core.fragment.EndpointCacheFragment;
 import com.uppoint.android.pro.core.util.Preconditions;
 
@@ -29,6 +30,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected static final int NO_TITLE = -1;
 
     private EndpointCacheFragment mCacheFragment;
+
+    private Toolbar mToolbar;
+
+    public Toolbar getToolbar() {
+        return mToolbar;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,10 +75,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @SuppressWarnings("ConstantConditions")
     private void setUpToolbar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         if (!hasToolbar()) {
-            toolbar.setVisibility(View.GONE);
+            mToolbar.setVisibility(View.GONE);
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -88,6 +95,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (android.R.id.home == item.getItemId()) {
+
             final Intent upIntent = NavUtils.getParentActivityIntent(this);
             if (upIntent == null) {
                 finish();

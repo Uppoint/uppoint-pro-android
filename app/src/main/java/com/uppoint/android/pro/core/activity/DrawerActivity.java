@@ -11,7 +11,6 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +33,10 @@ public abstract class DrawerActivity extends BaseActivity {
 
     private ActionBarDrawerToggle mDrawerToggle;
 
+    public ActionBarDrawerToggle getDrawerToggle() {
+        return mDrawerToggle;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +47,7 @@ public abstract class DrawerActivity extends BaseActivity {
 
     private void setUpDrawerToggle() {
         final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_container);
-        mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, (Toolbar) findViewById(R.id.toolbar),
+        mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, getToolbar(),
                 R.string.drawer_open, R.string.drawer_close);
         drawerLayout.addDrawerListener(mDrawerToggle);
     }

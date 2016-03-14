@@ -1,6 +1,7 @@
 package com.uppoint.android.pro.login.activity;
 
 import com.uppoint.android.pro.R;
+import com.uppoint.android.pro.calendar.activity.CalendarActivity;
 import com.uppoint.android.pro.core.activity.BaseActivity;
 import com.uppoint.android.pro.login.fragment.PickAccountFragment;
 
@@ -30,5 +31,12 @@ public class PickAccountActivity extends BaseActivity implements PickAccountFrag
             addGoogleAccountIntent.putExtra(Settings.EXTRA_ACCOUNT_TYPES, new String[]{"com.google"});
         }
         startActivity(addGoogleAccountIntent);
+    }
+
+    @Override
+    public void onAccountReady() {
+        final Intent intent = new Intent(this, CalendarActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

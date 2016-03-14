@@ -13,8 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +23,7 @@ import rx.subscriptions.CompositeSubscription;
 
 /**
  */
-public abstract class BaseFragment<M> extends Fragment implements LoaderManager.LoaderCallbacks<M> {
-
-    protected static final int NO_LOADER = -1;
+public abstract class BaseFragment<M> extends Fragment {
 
     private ResolverCommandBuilder mCommandBuilder;
 
@@ -47,14 +43,6 @@ public abstract class BaseFragment<M> extends Fragment implements LoaderManager.
 
         mCommandBuilder = new ResolverCommandBuilder();
 
-        loadModel();
-    }
-
-    private void loadModel() {
-        final int loaderId = getLoaderId();
-        if (NO_LOADER != loaderId) {
-            getLoaderManager().restartLoader(loaderId, getLoaderArguments(), this);
-        }
     }
 
     @Nullable
@@ -86,25 +74,8 @@ public abstract class BaseFragment<M> extends Fragment implements LoaderManager.
         }
     }
 
-    @Nullable
-    protected Bundle getLoaderArguments() {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<M> loader, M data) {
-        updateUI(data);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<M> loader) {
-        // do nothing
-    }
-
     @LayoutRes
     protected abstract int getLayoutResId();
-
-    protected abstract int getLoaderId();
 
     protected abstract void initUI(View view);
 

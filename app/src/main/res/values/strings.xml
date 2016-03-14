@@ -4,25 +4,39 @@
     <string name="error_dialog_title">Error</string>
     <string name="error_dialog_ok_button">OK</string>
 
+    <string name="drawer_open">Opened Navigation Drawer</string>
+    <string name="drawer_close">Coled Navigation Drawer</string>
+
+    <string name="form_save">Save</string>
+
+    <!-- Get Started Strings -->
     <string name="login_logo_placeholder">Uppoint Logo</string>
     <string name="login_subtitle_placeholder">Uppoint Moto</string>
     <string name="login_get_started_label">Get started</string>
 
+    <!-- Pick Account Strings -->
     <string name="pick_account_title">Accounts</string>
     <string name="pick_account_add_account">Add account</string>
     <string name="pick_account_error_message">Couldn\'t get information about the selected account from the server. Please, try again later.</string>
     <string name="pick_account_loading_message">Looking up account…</string>
 
-    <string name="drawer_open">Opened Navigation Drawer</string>
-    <string name="drawer_close">Coled Navigation Drawer</string>
-
+    <!-- Calendar Strings -->
     <string name="calendar_title">Calendar</string>
 
+    <string name="calendar_new_event_title">New Event</string>
+    <string name="calendar_new_event_event_title">Title</string>
+    <string name="calendar_new_event_event_description">Description</string>
+    <string name="calendar_new_event_event_from">From</string>
+    <string name="calendar_new_event_event_to">To</string>
+
+    <!-- Profile Strings -->
     <string name="profile_title">Profile</string>
 
+    <!-- Services Strings -->
     <string name="services_title">Services</string>
 
     <string name="office_hours_title">Office Hours</string>
 
     <string name="logout">Log Out</string>
+
 </resources>

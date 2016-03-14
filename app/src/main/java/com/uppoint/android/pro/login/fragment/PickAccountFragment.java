@@ -4,6 +4,7 @@ import com.appspot.uppoint_api.uppointApi.model.ProUserPayload;
 import com.uppoint.android.pro.R;
 import com.uppoint.android.pro.UppointProApplication;
 import com.uppoint.android.pro.core.fragment.BaseFragment;
+import com.uppoint.android.pro.core.fragment.LoaderFragment;
 import com.uppoint.android.pro.core.util.Preconditions;
 import com.uppoint.android.pro.core.util.SharedPreferenceConstants;
 import com.uppoint.android.pro.login.adapter.PickAccountAdapter;
@@ -27,7 +28,7 @@ import rx.Observer;
 
 /**
  */
-public class PickAccountFragment extends BaseFragment<List<Account>> implements PickAccountAdapter.OnItemClickListener {
+public class PickAccountFragment extends LoaderFragment<List<Account>> implements PickAccountAdapter.OnItemClickListener {
 
     private static final int LOADER_ACCOUNTS = 1;
 
@@ -145,9 +146,9 @@ public class PickAccountFragment extends BaseFragment<List<Account>> implements 
         public void onNext(ProUserPayload proUserPayload) {
             dismissLoadingDialog();
             if (proUserPayload != null) {
-                Toast.makeText(getContext(), "User found. Proceed to main screen.", Toast.LENGTH_SHORT).show();
                 storeUserKey(proUserPayload);
                 requestSync();
+                mCallback.onAccountReady();
             }
         }
     }
@@ -166,6 +167,8 @@ public class PickAccountFragment extends BaseFragment<List<Account>> implements 
     public interface Callback {
 
         void onAddGoogleAccount();
+
+        void onAccountReady();
 
     }
 }

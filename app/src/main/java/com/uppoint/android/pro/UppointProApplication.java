@@ -84,7 +84,9 @@ public class UppointProApplication extends Application {
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
-            requestSync(false /* don't force sync */);
+            if (!Scheme.BASE_URI.equals(uri)) {
+                requestSync(true /* force sync */);
+            }
         }
 
     }
