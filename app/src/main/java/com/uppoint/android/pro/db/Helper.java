@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class Helper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "uppoint_pro.db";
+    public static final String DB_NAME = "uppoint_pro.db";
     private static final int DB_VERSION = 1;
 
     private static final String CREATE_COUNTRIES = "create table " + Scheme.Country.TABLE_NAME + "("
@@ -59,7 +59,7 @@ public class Helper extends SQLiteOpenHelper {
             + Scheme.User.PROFESSION_KEY + " text, "
             + Scheme.User.COUNTRY_KEY + " text, "
             + Scheme.User.CITY_KEY + " text, "
-            + Scheme.User._LAST_UPDATE + " integer default(strftime('%s','now')), "
+            + Scheme.User._LAST_UPDATE + " integer default(strftime('%s','now') * 1000), "
             + Scheme.User._IS_DELETED + " integer default 0, "
             + "foreign key(" + Scheme.User.PROFESSION_KEY + ") "
             + "references " + Scheme.Profession.TABLE_NAME + "(" + Scheme.Profession._KEY + "), "
@@ -78,7 +78,7 @@ public class Helper extends SQLiteOpenHelper {
             + Scheme.UserDefinedService.DURATION + " integer not null, "
             + Scheme.UserDefinedService.SERVICE_TYPE_KEY + " text not null, "
             + Scheme.UserDefinedService.USER_KEY + " text not null, "
-            + Scheme.UserDefinedService._LAST_UPDATE + " integer default(strftime('%s','now')), "
+            + Scheme.UserDefinedService._LAST_UPDATE + " integer default(strftime('%s','now') * 1000), "
             + Scheme.UserDefinedService._IS_DELETED + " integer default 0, "
             + "foreign key(" + Scheme.UserDefinedService.SERVICE_TYPE_KEY + ") "
             + "references " + Scheme.ServiceType.TABLE_NAME + "(" + Scheme.ServiceType._KEY + "), "
@@ -93,7 +93,7 @@ public class Helper extends SQLiteOpenHelper {
             + Scheme.Event.START_TIME + " integer not null, "
             + Scheme.Event.END_TIME + " integer not null, "
             + Scheme.Event.USER_KEY + " text not null, "
-            + Scheme.Event._LAST_UPDATE + " integer default(strftime('%s','now')), "
+            + Scheme.Event._LAST_UPDATE + " integer default(strftime('%s','now') * 1000), "
             + Scheme.Event._IS_DELETED + " integer default 0, "
             + "foreign key(" + Scheme.Event.USER_KEY + ") "
             + "references " + Scheme.User.TABLE_NAME + "(" + Scheme.User._KEY + "))";

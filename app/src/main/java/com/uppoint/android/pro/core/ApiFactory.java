@@ -41,7 +41,7 @@ public final class ApiFactory {
         final UppointApi.Builder apiBuilder = new UppointApi.Builder(AndroidHttp.newCompatibleTransport(),
                 new GsonFactory(), credential);
         if (BuildConfig.DEBUG) {
-            apiBuilder.setRootUrl("http://192.168.8.100:8888/_ah/api");
+            apiBuilder.setRootUrl("http://192.168.8.102:8888/_ah/api");
             apiBuilder.setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
                 @Override
                 public void initialize(AbstractGoogleClientRequest<?> request) throws IOException {

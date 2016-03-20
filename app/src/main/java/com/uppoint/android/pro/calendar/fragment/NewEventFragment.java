@@ -1,7 +1,7 @@
 package com.uppoint.android.pro.calendar.fragment;
 
 import com.uppoint.android.pro.R;
-import com.uppoint.android.pro.calendar.activity.CalendarActivity;
+import com.uppoint.android.pro.calendar.activity.BaseCalendarActivity;
 import com.uppoint.android.pro.core.fragment.BaseFragment;
 import com.uppoint.android.pro.core.util.SharedPreferenceConstants;
 import com.uppoint.android.pro.db.Scheme;
@@ -97,7 +97,7 @@ public class NewEventFragment extends BaseFragment<Void> implements View.OnClick
     private String getUserKey() {
         final SharedPreferences sharedPreferences = getContext()
                 .getSharedPreferences(SharedPreferenceConstants.SETTINGS_PREFS, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(SharedPreferenceConstants.KEY_USER, null);
+        return sharedPreferences.getString(SharedPreferenceConstants.KEY_USER_REMOTE_ID, null);
     }
 
     private long getStartTime() throws ParseException {
@@ -127,7 +127,7 @@ public class NewEventFragment extends BaseFragment<Void> implements View.OnClick
     public void onResume() {
         super.onResume();
 
-        final CalendarActivity activity = (CalendarActivity) getActivity();
+        final BaseCalendarActivity activity = (BaseCalendarActivity) getActivity();
         if (activity == null) {
             return;
         }
@@ -147,7 +147,7 @@ public class NewEventFragment extends BaseFragment<Void> implements View.OnClick
     public void onPause() {
         super.onPause();
 
-        final CalendarActivity activity = (CalendarActivity) getActivity();
+        final BaseCalendarActivity activity = (BaseCalendarActivity) getActivity();
         if (activity == null) {
             return;
         }

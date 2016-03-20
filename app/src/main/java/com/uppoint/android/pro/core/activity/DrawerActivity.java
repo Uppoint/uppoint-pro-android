@@ -1,7 +1,7 @@
 package com.uppoint.android.pro.core.activity;
 
 import com.uppoint.android.pro.R;
-import com.uppoint.android.pro.calendar.activity.CalendarActivity;
+import com.uppoint.android.pro.calendar.activity.BaseCalendarActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -93,7 +93,7 @@ public abstract class DrawerActivity extends BaseActivity {
         if (sDrawerItems == null) {
             sDrawerItems = new ArrayList<>();
             sDrawerItems.add(new DrawerItem(R.drawable.ic_today_black_24dp, R.string.calendar_title,
-                    CalendarActivity.class));
+                    BaseCalendarActivity.class));
             sDrawerItems.add(new DrawerItem(R.drawable.ic_face_black_24dp, R.string.profile_title, null));
             sDrawerItems.add(new DrawerItem(R.drawable.ic_list_black_24dp, R.string.services_title, null));
             sDrawerItems.add(new DrawerItem(R.drawable.ic_schedule_black_24dp, R.string.office_hours_title, null));

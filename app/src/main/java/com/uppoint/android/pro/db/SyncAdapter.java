@@ -45,7 +45,7 @@ import bg.dalexiev.bender.content.EntityCursor;
 import bg.dalexiev.bender.content.ResolverCommandBuilder;
 
 import static bg.dalexiev.bender.db.Predicate.eq;
-import static bg.dalexiev.bender.db.Predicate.ge;
+import static bg.dalexiev.bender.db.Predicate.gt;
 
 /**
  */
@@ -128,12 +128,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
 
         for (EventPayload event : events) {
-            final ContentProviderOperation insert = createEventInsert(event);
+            final ContentProviderOperation insert = createEventInsert(event, remoteChanges.getLastSyncTimestamp());
             operations.add(insert);
         }
     }
 
-    private ContentProviderOperation createEventInsert(EventPayload event) {
+    private ContentProviderOperation createEventInsert(EventPayload event, long lastSyncTimestamp) {
         return ContentProviderOperation.newInsert(buildSyncUri(Scheme.Event.URI))
                 .withValue(Scheme.Event._KEY, event.getKey())
                 .withValue(Scheme.Event.TITLE, event.getTitle())
@@ -141,6 +141,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .withValue(Scheme.Event.START_TIME, event.getStartTime())
                 .withValue(Scheme.Event.END_TIME, event.getEndTime())
                 .withValue(Scheme.Event.USER_KEY, event.getUserKey())
+                .withValue(Scheme.Event._LAST_UPDATE, lastSyncTimestamp)
                 .build();
     }
 
@@ -151,12 +152,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
 
         for (UserDefinedServicePayload service : services) {
-            final ContentProviderOperation insert = createServiceInsert(service);
+            final ContentProviderOperation insert = createServiceInsert(service, remoteChanges.getLastSyncTimestamp());
             operations.add(insert);
         }
     }
 
-    private ContentProviderOperation createServiceInsert(UserDefinedServicePayload service) {
+    private ContentProviderOperation createServiceInsert(UserDefinedServicePayload service, long lastSyncTimestamp) {
         return ContentProviderOperation.newInsert(buildSyncUri(Scheme.UserDefinedService.URI))
                 .withValue(Scheme.UserDefinedService._KEY, service.getKey())
                 .withValue(Scheme.UserDefinedService.NAME, service.getName())
@@ -165,6 +166,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .withValue(Scheme.UserDefinedService.DURATION, service.getPrice())
                 .withValue(Scheme.UserDefinedService.USER_KEY, service.getUserKey())
                 .withValue(Scheme.UserDefinedService.SERVICE_TYPE_KEY, service.getServiceTypeKey())
+                .withValue(Scheme.UserDefinedService._LAST_UPDATE, lastSyncTimestamp)
                 .build();
     }
 
@@ -261,7 +263,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private ContentProviderOperation createCountryInsert(CountryPayload country) {
-        return ContentProviderOperation.newInsert(buildSyncUri(Scheme.Country.URI))
+        return ContentProviderOperation
+                .newInsert(buildSyncUri(Scheme.Country.URI))
                 .withValue(Scheme.Country._KEY, country.getKey())
                 .withValue(Scheme.Country.NAME, LocalePairUtil.toJson(country.getTranslation()))
                 .build();
@@ -270,14 +273,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private void insertRemoteUser(SyncPayload remoteChanges, ArrayList<ContentProviderOperation> operations) {
         final ProUserPayload proUserPayload = remoteChanges.getProfile();
         if (proUserPayload != null) {
-            final ContentProviderOperation.Builder insertBuilder = ContentProviderOperation.newInsert(
-                    buildSyncUri(Scheme.User.URI))
+            final ContentProviderOperation.Builder insertBuilder = ContentProviderOperation
+                    .newInsert(buildSyncUri(Scheme.User.URI))
                     .withValue(Scheme.User._KEY, proUserPayload.getKey())
                     .withValue(Scheme.User.NAME, proUserPayload.getName())
                     .withValue(Scheme.User.EMAIL, proUserPayload.getEmail())
                     .withValue(Scheme.User.PHONE_NUMBER, proUserPayload.getPhoneNumber())
                     .withValue(Scheme.User.RATING, proUserPayload.getRating())
-                    .withValue(Scheme.User.PROFESSION_KEY, proUserPayload.getProfessionKey());
+                    .withValue(Scheme.User.PROFESSION_KEY, proUserPayload.getProfessionKey())
+                    .withValue(Scheme.User._LAST_UPDATE, remoteChanges.getLastSyncTimestamp());
             final AddressPayload address = proUserPayload.getAddress();
             if (address != null) {
                 insertBuilder
@@ -325,7 +329,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .onUri(Scheme.Event.URI)
                 .select(Scheme.Event._KEY)
                 .where(eq(Scheme.UserDefinedService.USER_KEY, userKey))
-                .where(ge(Scheme.UserDefinedService._LAST_UPDATE, timestamp))
+                .where(gt(Scheme.UserDefinedService._LAST_UPDATE, timestamp))
                 .where(eq(Scheme.UserDefinedService._IS_DELETED, "1"))
                 .useRowMapper(new SyncKeyMapper())
                 .execute();
@@ -339,7 +343,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .onUri(Scheme.UserDefinedService.URI)
                 .select(Scheme.UserDefinedService._KEY)
                 .where(eq(Scheme.UserDefinedService.USER_KEY, userKey))
-                .where(ge(Scheme.UserDefinedService._LAST_UPDATE, timestamp))
+                .where(gt(Scheme.UserDefinedService._LAST_UPDATE, timestamp))
                 .where(eq(Scheme.UserDefinedService._IS_DELETED, "1"))
                 .useRowMapper(new SyncKeyMapper())
                 .execute();
@@ -353,7 +357,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .onUri(Scheme.Event.URI)
                 .select(Scheme.Event.SYNC_PROJECTION)
                 .where(eq(Scheme.Event.USER_KEY, userKey))
-                .where(ge(Scheme.Event._LAST_UPDATE, timestamp))
+                .where(gt(Scheme.Event._LAST_UPDATE, timestamp))
                 .where(eq(Scheme.Event._IS_DELETED, "0"))
                 .useRowMapper(new SyncEventMapper())
                 .execute();
@@ -366,7 +370,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .query(mContentResolver, UserDefinedServicePayload.class).onUri(Scheme.UserDefinedService.URI)
                 .select(Scheme.UserDefinedService.SYNC_PROJECTION)
                 .where(eq(Scheme.UserDefinedService.USER_KEY, userKey))
-                .where(ge(Scheme.UserDefinedService._LAST_UPDATE, timestamp))
+                .where(gt(Scheme.UserDefinedService._LAST_UPDATE, timestamp))
                 .where(eq(Scheme.UserDefinedService._IS_DELETED, "0"))
                 .useRowMapper(new SyncServiceMapper())
                 .execute();
@@ -381,7 +385,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .onUri(Scheme.User.URI)
                 .select(Scheme.User.SYNC_PROJECTION)
                 .where(eq(Scheme.User._KEY, userKey))
-                .where(ge(Scheme.User._LAST_UPDATE, timestamp))
+                .where(gt(Scheme.User._LAST_UPDATE, timestamp))
                 .useRowMapper(new SyncUserMapper())
                 .execute();
         ProUserPayload proUserPayload = null;
