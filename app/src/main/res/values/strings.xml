@@ -28,6 +28,8 @@
     <string name="calendar_new_event_event_description">Description</string>
     <string name="calendar_new_event_event_from">From</string>
     <string name="calendar_new_event_event_to">To</string>
+    <string name="calendar_new_event_error_no_title">Please enter a title for the event.</string>
+    <string name="calendar_new_event_error_wrong_date">Invalid end date.</string>
 
     <!-- Profile Strings -->
     <string name="profile_title">Profile</string>

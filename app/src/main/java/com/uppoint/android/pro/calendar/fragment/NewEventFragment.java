@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -44,6 +45,7 @@ public class NewEventFragment extends BaseFragment<Void> implements View.OnClick
     private EditText mDescriptionEditText;
     private EditText mFromDate;
     private EditText mFromTime;
+    private TextInputLayout mToDateContainer;
     private EditText mToDate;
     private EditText mToTime;
 
@@ -80,18 +82,40 @@ public class NewEventFragment extends BaseFragment<Void> implements View.OnClick
 
     private void saveEvent() {
         try {
+            final long startTime = getStartTime();
+            final long endTime = getEndTime();
+
+            if (!validate(startTime, endTime)) {
+                return;
+            }
+
             getContentResolverCommandBuilder()
                     .insert(getContext().getContentResolver())
                     .onUri(Scheme.Event.URI)
-                    .set(Scheme.Event.TITLE, mTitleEditText.getText().toString())
-                    .set(Scheme.Event.DESCRIPTION, mDescriptionEditText.getText().toString())
-                    .set(Scheme.Event.START_TIME, getStartTime())
-                    .set(Scheme.Event.END_TIME, getEndTime())
+                    .set(Scheme.Event.TITLE, mTitleEditText.getText().toString().trim())
+                    .set(Scheme.Event.DESCRIPTION, mDescriptionEditText.getText().toString().trim())
+                    .set(Scheme.Event.START_TIME, startTime)
+                    .set(Scheme.Event.END_TIME, endTime)
                     .set(Scheme.Event.USER_KEY, getUserKey())
                     .executeAsync(SAVE_EVENT_TOKEN, this);
         } catch (ParseException e) {
             // should never happen
         }
+    }
+
+    private boolean validate(long startTime, long endTime) {
+        final String title = mTitleEditText.getText().toString();
+        if (TextUtils.isEmpty(title)) {
+            mTitleContainer.setError(getString(R.string.calendar_new_event_error_no_title));
+            return false;
+        }
+
+        if (startTime >= endTime) {
+            mToDateContainer.setError(getString(R.string.calendar_new_event_error_wrong_date));
+            return false;
+        }
+
+        return true;
     }
 
     private String getUserKey() {
@@ -184,6 +208,7 @@ public class NewEventFragment extends BaseFragment<Void> implements View.OnClick
         mFromTime.setText(mTimeFormat.format(now.getTime()));
         mFromTime.setOnClickListener(this);
 
+        mToDateContainer = (TextInputLayout) view.findViewById(R.id.new_event_to_date_container);
         mToDate = (EditText) view.findViewById(R.id.new_event_to_date);
         mToDate.setText(dateText);
         mToDate.setOnClickListener(this);
