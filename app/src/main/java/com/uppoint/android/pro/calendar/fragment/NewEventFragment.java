@@ -16,7 +16,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,7 +46,10 @@ public class NewEventFragment extends BaseFragment<Void> implements View.OnClick
     private EditText mFromTime;
     private TextInputLayout mToDateContainer;
     private EditText mToDate;
+    private TextInputLayout mToTimeContainer;
     private EditText mToTime;
+
+    private MenuItem mSaveAction;
 
     private Drawable mNavigationIcon;
     private String mOriginalTitle;
@@ -72,50 +74,47 @@ public class NewEventFragment extends BaseFragment<Void> implements View.OnClick
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        mSaveAction = menu.findItem(R.id.action_new_event_save);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (R.id.action_new_event_save == item.getItemId()) {
-            saveEvent();
+            onSaveClick();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveEvent() {
+    private void onSaveClick() {
         try {
             final long startTime = getStartTime();
             final long endTime = getEndTime();
 
-            if (!validate(startTime, endTime)) {
-                return;
+            if (validateForm(startTime, endTime)) {
+                saveEvent(startTime, endTime);
             }
-
-            getContentResolverCommandBuilder()
-                    .insert(getContext().getContentResolver())
-                    .onUri(Scheme.Event.URI)
-                    .set(Scheme.Event.TITLE, mTitleEditText.getText().toString().trim())
-                    .set(Scheme.Event.DESCRIPTION, mDescriptionEditText.getText().toString().trim())
-                    .set(Scheme.Event.START_TIME, startTime)
-                    .set(Scheme.Event.END_TIME, endTime)
-                    .set(Scheme.Event.USER_KEY, getUserKey())
-                    .executeAsync(SAVE_EVENT_TOKEN, this);
         } catch (ParseException e) {
             // should never happen
         }
     }
 
-    private boolean validate(long startTime, long endTime) {
-        final String title = mTitleEditText.getText().toString();
-        if (TextUtils.isEmpty(title)) {
-            mTitleContainer.setError(getString(R.string.calendar_new_event_error_no_title));
-            return false;
-        }
+    private boolean validateForm(long startTime, long endTime) {
+        return false;
+    }
 
-        if (startTime >= endTime) {
-            mToDateContainer.setError(getString(R.string.calendar_new_event_error_wrong_date));
-            return false;
-        }
+    private void saveEvent(long startTime, long endTime) {
+        getContentResolverCommandBuilder()
+                .insert(getContext().getContentResolver())
+                .onUri(Scheme.Event.URI)
+                .set(Scheme.Event.TITLE, mTitleEditText.getText().toString().trim())
+                .set(Scheme.Event.DESCRIPTION, mDescriptionEditText.getText().toString().trim())
+                .set(Scheme.Event.START_TIME, startTime)
+                .set(Scheme.Event.END_TIME, endTime)
+                .set(Scheme.Event.USER_KEY, getUserKey())
+                .executeAsync(SAVE_EVENT_TOKEN, this);
 
-        return true;
     }
 
     private String getUserKey() {
@@ -213,8 +212,9 @@ public class NewEventFragment extends BaseFragment<Void> implements View.OnClick
         mToDate.setText(dateText);
         mToDate.setOnClickListener(this);
 
-        now.add(Calendar.MINUTE, 30);
+        mToTimeContainer = (TextInputLayout) view.findViewById(R.id.new_event_to_time_container);
         mToTime = (EditText) view.findViewById(R.id.new_event_to_time);
+        now.add(Calendar.MINUTE, 30);
         mToTime.setText(mTimeFormat.format(now.getTime()));
         mToTime.setOnClickListener(this);
     }
